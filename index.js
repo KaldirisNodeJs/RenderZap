@@ -33,16 +33,21 @@ async function CapturaTelaSite() {
   var screenshot;
   var nomeCompletoImagem = './public/teste.png';
   
-  // Cria o Objeto Browser
-  browser = await puppeteer.launch({
-    headless: esconderBrowse,
-    timeout: 60000,
-    args: [`--window-size=1920,1080`],
-  });
+  // // Cria o Objeto Browser
+  // browser = await puppeteer.launch({
+  //   headless: esconderBrowse,
+  //   timeout: 60000,
+  //   args: [`--window-size=1920,1080`],
+  // });
   
-  // Cria uma nova página
-  page = await browser.newPage(); 
-  await page.setViewport({ width: 1920, height: 1080, deviceScaleFactor: 1 });
+  // // Cria uma nova página
+  // page = await browser.newPage(); 
+  // await page.setViewport({ width: 1920, height: 1080, deviceScaleFactor: 1 });
+  
+  
+  
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
   
   // Abre a página da URL Informada
   console.log("Navengando para URL:", urlParaCapturar);
