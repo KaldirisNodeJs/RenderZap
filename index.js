@@ -1,10 +1,13 @@
 const fs        = require('fs')
+const process   = require('process');
 const puppeteer = require("puppeteer");
 const express = require("express");
 const app = express();
       app.use(express.static(__dirname+'\\public'));
-console.log('__dirname',__dirname+'\\public');
 
+console.log("VERSÃO NODE: ",process.version);
+console.log('__dirname  : ',__dirname);
+      
 
 
 app.get("/", function (req, res) {
@@ -31,8 +34,12 @@ async function CapturaTelaSite() {
   var esconderBrowse     = 'new';
   var tamanhoSiteTodo    = true;
   var screenshot;
-  var nomeCompletoImagem = './public/teste.png';
+  var nomeCompletoImagem = __dirname + '\\public\\teste.png';
   
+  if(fs.existsSync(nomeCompletoImagem)){
+    fs.unlinkSync(nomeCompletoImagem)
+    return
+  }
   // // Cria o Objeto Browser
   // browser = await puppeteer.launch({
   //   headless: esconderBrowse,
@@ -46,8 +53,9 @@ async function CapturaTelaSite() {
   
   
   
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({headless: esconderBrowse});
   const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080, deviceScaleFactor: 1 });
   
   // Abre a página da URL Informada
   console.log("Navengando para URL:", urlParaCapturar);
@@ -68,3 +76,4 @@ async function CapturaTelaSite() {
 
 }
 
+CapturaTelaSite()
