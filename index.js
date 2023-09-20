@@ -23,12 +23,6 @@ app.listen(3000);
 console.log("http://localhost:3000");
 
 
-
-
-
-
-
-
 async function CapturaTelaSite() {
   var urlParaCapturar    = "https://kaldiris.com.br";
   var esconderBrowse     = 'new';
@@ -56,7 +50,7 @@ async function CapturaTelaSite() {
   const browser = await puppeteer.launch({headless: esconderBrowse});
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080, deviceScaleFactor: 1 });
-  
+
   // Abre a página da URL Informada
   console.log("Navengando para URL:", urlParaCapturar);
   await page.goto(urlParaCapturar);
@@ -75,5 +69,3 @@ async function CapturaTelaSite() {
    return(nomeCompletoImagem)
 
 }
-
-CapturaTelaSite()
