@@ -1,14 +1,12 @@
-const fs        = require('fs')
-const process   = require('process');
+const fs = require("fs");
+const process = require("process");
 const puppeteer = require("puppeteer");
 const express = require("express");
 const app = express();
-      app.use(express.static(__dirname+'\\public'));
+app.use(express.static(__dirname + "\\public"));
 
-console.log("VERSÃO NODE: ",process.version);
-console.log('__dirname  : ',__dirname);
-      
-
+console.log("VERSÃO NODE: ", process.version);
+console.log("__dirname  : ", __dirname);
 
 app.get("/", function (req, res) {
   res.status(200).send("Node - Express - Respondendo...OK");
@@ -16,23 +14,21 @@ app.get("/", function (req, res) {
 
 app.get("/cap", async (req, res) => {
   xr = await CapturaTelaSite();
-  res.status(200).sendFile(__dirname + '/public/mostracap.html');
+  res.status(200).sendFile(__dirname + "/public/mostracap.html");
 });
 
 app.listen(3000);
 console.log("http://localhost:3000");
 
-
 async function CapturaTelaSite() {
-  var urlParaCapturar    = "https://kaldiris.com.br";
-  var esconderBrowse     = 'new';
-  var tamanhoSiteTodo    = true;
+  var urlParaCapturar = "https://kaldiris.com.br";
+  var esconderBrowse = "new";
+  var tamanhoSiteTodo = true;
   var screenshot;
-  var nomeCompletoImagem = __dirname + '\\public\\teste.png';
-  
-  if(fs.existsSync(nomeCompletoImagem)){
-    fs.unlinkSync(nomeCompletoImagem)
-    return
+  var nomeCompletoImagem = __dirname + "\\public\\teste.png";
+
+  if (fs.existsSync(nomeCompletoImagem)) {
+    fs.unlinkSync(nomeCompletoImagem);
   }
   // // Cria o Objeto Browser
   // browser = await puppeteer.launch({
@@ -40,14 +36,15 @@ async function CapturaTelaSite() {
   //   timeout: 60000,
   //   args: [`--window-size=1920,1080`],
   // });
-  
+
   // // Cria uma nova página
-  // page = await browser.newPage(); 
+  // page = await browser.newPage();
   // await page.setViewport({ width: 1920, height: 1080, deviceScaleFactor: 1 });
-  
-  
-  
-  const browser = await puppeteer.launch({headless: esconderBrowse});
+
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: ["--no-sandbox", "--disable-dev-shm-usage"],
+  });
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080, deviceScaleFactor: 1 });
 
@@ -64,8 +61,7 @@ async function CapturaTelaSite() {
   });
 
   // Salva a captura em um arquivo de imagem
-   await fs.writeFileSync(nomeCompletoImagem, screenshot);
-   console.log("Imagem Gerada: ",nomeCompletoImagem);
-   return(nomeCompletoImagem)
-
+  await fs.writeFileSync(nomeCompletoImagem, screenshot);
+  console.log("Imagem Gerada: ", nomeCompletoImagem);
+  return nomeCompletoImagem;
 }
